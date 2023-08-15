@@ -1,132 +1,100 @@
-# CAIXA DA LANCHONETE
+# DESAFIO START DB 2023 #
 
-## COMO BAIXAR O CÓDIGO E SUBMETER MINHA SOLUÇÃO?
-Para completar a etapa do desafio você terá que baixar a estrutura do código aqui na Azure, resolver o desafio e entregá-lo no repositório no seu github.
+# 1º Parte: 
+Criação da constante CARDÁPIO, que é um objeto que mapeia os códigos dos itens do cardápio para as informações sobre cada item, que possuem as seguintes propriedades:
 
-### BAIXANDO A ESTRUTURA
-Para baixar a estrutura no formato zip, basta clicar neste [link](https://dev.azure.com/db-tecnologia/371ab069-cd1e-4ede-8ae5-fa54dd981c56/_apis/git/repositories/a3a8fe92-b324-4d6b-abbd-1953e46fb075/items?path=/&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=main&resolveLfs=true&%24format=zip&api-version=5.0&download=true).
+price: O preço do item.
+type: O tipo do item, que pode ser 'main' (item principal) ou 'extra' (item extra).
+extras: Uma lista de códigos de itens extras que podem ser adicionados a este item.
+mainItem: O código do item principal ao qual este item extra está associado.
+
+Esse mapeamento facilita a busca de informações sobre os itens do cardápio e a verificação de itens extras associados a itens principais.
+
+# 2° Parte :
+Verificação de situações 
+if (itens.length === 0):Verifica se a lista(itens) é vazia, em caso positivo, retorna a mensagem "Não há itens no carrinho de compra!"
+Criação do array contendo as formas de pagamentos aceitas pelo programa.
+formasDePagamentoValidas = ['dinheiro', 'debito', 'credito'];
+
+# 3°) Parte: 
+Validação da forma de pagamento
+if (!formasDePagamentoValidas.includes(metodoDePagamento))
+Atenção ao operador != ele inverte o resultado da verificação, ou seja, está verficando se o método de pagamento não está na lista de formas de pagamento.
+Se a forma de pagamento não for válida, a função retorna a mensagem "Forma de pagamento inválida!".
+
+# 4° Parte:
+Iniciando a variavel 'let total= 0 em zero, que será usada para o calculo do valor total da compra.
+Criação de uma matriz vazia chamada extraItemsWithoutMain = [], usada para armazenar itens extras que não tem um item principal correspondentes no pedido
+for (const itemInfo of itens) : Criação de um for loop para percorrer a matriz 'itens'.
+
+Para cada elemento, ele executa o seguinte código:
+
+const [itemCode, quantity] = itemInfo.split(',');: Aqui, o elemento itemInfo (que parece ser uma string no formato "codigo,quantidade") é dividido em partes usando o método split(','). Isso cria um array contendo o código do item (itemCode) e a quantidade (quantity).
+const item = cardapio[itemCode];: Aqui, estamos usando o código do item (itemCode) para acessar as informações do item no dicionário cardapio. Isso nos dá acesso a propriedades como o preço, tipo, itens extras, etc., relacionados ao item.
+
+# 5° Parte
+Verificando se o código do item existe:
+
+if (!item) {
+  return "Item inválido!";
+Como temos o ! de negação, caso o código do item passado pelo cliente for inválido, o bloco retornará a mensagem "Item inválido".
+
+# 6° Parte 
+verifica se um item extra está sendo pedido sem o item principal correspondente e, se não for o caso, adiciona o preço do item principal (ou do item extra, se for o caso) ao valor total da compra. Além disso, ele garante que a restrição de itens extras sem itens principais seja respeitada.
+
+InitemCode.startsWith('combo') é uma verificação para determinar se uma string começa com o texto "combo" ou não.
+
+if (item.type === 'extra') é uma verificação se o tipo do item é "extra".
+
+const mainItemCode = item.mainItem; = Obtém o código do item principal ao qual este item extra está associado. No cardápio, cada item extra tem a propriedade mainItem que indica o código do item principal correspondente.
+
+const mainItemQuantity = itens.find(item => item.startsWith(mainItemCode));: Procura na lista de itens (itens) o item principal correspondente usando o código do item principal (mainItemCode). A função find retorna o primeiro item na lista que começa com o código do item principal.
+
+ Verifica duas condições:
+ 
+1 -Se mainItemQuantity não foi encontrado (ou seja, o cliente não pediu o item principal correspondente) OU
+2 -Se a quantidade do item principal for igual a 0.
+
+if (!mainItemQuantity || parseInt(mainItemQuantity.split(',')[1]) === 0) 
+
+Se qualquer uma dessas condições for verdadeira, significa que o cliente está tentando pedir um item extra sem o item principal correspondente. Nesse caso, adicionamos o código do item extra à matriz extraItemsWithoutMain.
+
+ # 7° Parte
+Calcular o total parcial da compra somando o preço do item (item.price) multiplicado pela quantidade solicitada (quantity) à variável total.
+total += item.price * quantity;
+
+# 8° Parte
+Verificar se o cliente não está pedindo um item extra, sem o seu item  principal correspondente.Se algum item extra tiver sido pedido sem um item principal correspondente, a função retornará a mensagem de erro apropriada. Isso ajuda a aplicar a regra de que itens extras devem ter itens principais associados e ajuda a evitar pedidos inválidos.
+
+if (extraItemsWithoutMain.length > 0) {
+    return "Item extra não pode ser pedido sem o principal";
+}
+
+# 9° Parte
+Verificar a quantidade de itens
+se for igual a 0, retornar a mensagem "Quantidade inválida!"
+
+if (total === 0) {
+        return "Quantidade inválida!";
+      }
+
+# 10° Parte
+Aplicação do desconto ou acrescimo necessário
+
+if (metodoDePagamento === 'dinheiro') {
+        total *= 0.95; // Aplicando 5% de desconto
+      } else if (metodoDePagamento === 'credito') {
+        total *= 1.03; // Aplicando 3% de acréscimo
+      }
+      
+# 11º Parte
+Utilizando o método replace para substituir um caractere em uma string por outro caractere. No caso "." por "," conforme solicitadoo.
+
+const formattedTotal = `R$ ${total.toFixed(2).replace('.', ',')}`;
 
 
-### ENTREGANDO O DESAFIO
-Após resolver o desafio e validá-lo com os testes (mais detalhes nos tópicos abaixo), você terá que criar um repositório no [Github](https://github.com/) com o nome de `desafio-$seunome-$sobrenome` (substitua os nomes com $ pelo seu próprio nome e sobrenome). Deṕos disso, você pode enviar o link do seu repositório para que possamos validá-lo para o e-mail: `start@dbserver.com.br`
-
-Se você ainda não teve contato com essas ferramentas, não tem problema, separamos um material para lhe ajudar nessa etapa: [Como usar Git e Github na prática](https://www.youtube.com/watch?v=UBAX-13g8OM).
 
 
-## O DESAFIO
-Olá! Você foi contratado para automatizar o caixa da Lanchonete da DB.
-Sua missão será construir a lógica que calcula o valor de uma compra de acordo com o cardápio, regras e descontos da Lanchonete.
+# TESTES AUTOMATIZADOS INSERIDOS
 
-### CARDÁPIO
-
-  | codigo    | descrição                   | valor   |
-  |-----------|-----------------------------|---------|
-  | cafe      | Café                        | R$ 3,00 |
-  | chantily  | Chantily (extra do Café)    | R$ 1,50 |
-  | suco      | Suco Natural                | R$ 6,20 |
-  | sanduiche | Sanduíche                   | R$ 6,50 |
-  | queijo    | Queijo (extra do Sanduíche) | R$ 2,00 |
-  | salgado   | Salgado                     | R$ 7,25 |
-  | combo1    | 1 Suco e 1 Sanduíche        | R$ 9,50 |
-  | combo2    | 1 Café e 1 Sanduíche        | R$ 7,50 |
-
-
-### FORMAS DE PAGAMENTO
-Atualmente a Lanchonete aceita as seguintes formas de pagamento:
- - dinheiro
- - debito
- - credito
-
-O sistema deve receber essa informação como string, utilizando a grafia exatamente igual aos exemplos acima.
-
-### DESCONTOS E TAXAS
- - Pagamento em dinheiro tem 5% de desconto
- - Pagamento a crédito tem acréscimo de 3% no valor total
-
-### OUTRAS REGRAS
-
-- Caso item extra seja informado num pedido que não tenha o respectivo item principal, apresentar mensagem "Item extra não pode ser pedido sem o principal".
-- Combos não são considerados como item principal.
-- É possível pedir mais de um item extra sem precisar de mais de um principal.
-- Se não forem pedidos itens, apresentar mensagem "Não há itens no carrinho de compra!"
-- Se a quantidade de itens for zero, apresentar mensagem "Quantidade inválida!".
-- Se o código do item não existir, apresentar mensagem "Item inválido!"
-- Se a forma de pagamento não existir, apresentar mensagem "Forma de pagamento inválida!"
-
-### O CÓDIGO
-Você está recebendo uma estrutura básica para desenvolver a lógica do caixa. O arquivo principal está localizado dentro da pasta `src` e se chama `caixa-da-lanchonete.js`. Você pode desenvolver a sua lógica criando outros arquivos, métodos e até mesmo outras classes, porém o resultado deve poder ser obtido através do método `calcularValorDaCompra`.
-
-> ALERTA:
-> É importante que a estrutura básica descrita acima não seja alterada, incluindo nome e parâmetros do método. Iremos validar sua solução através destes, assim como você pode validar através dos cenários de testes já implementados em `src/caixa-da-lanchonete.test.js`.
-
-### INSTALANDO E RODANDO NA SUA MÁQUINA
-1. Instalar o [Node](https://nodejs.org/en/)
-2. Instalar dependencias do projeto com o seguinte comando:
-```bash
-npm install
-```
-
-### VALIDANDO A SOLUÇÃO
-Junto com a estrutura básica você está recebendo alguns cenários de testes para auxiliar na validação da sua solução. Recomendamos que você crie mais casos de teste para aumentar a confiabilidade da sua solução.
-Para testar sua solução com os cenários já criados, basta rodar o seguinte comando:
-```bash
-npm test
-```
-
-Para saber mais consulte a [Documentação do Jest](https://jestjs.io/pt-BR/docs/getting-started).
-
-### INPUTS
-O método `calcularValorDaCompra` recebe dois parâmetros, `formaDePagamento` e `itens`, sendo o primeiro uma string com os possíveis valores válidos: `debito`, `credito` e `dinheiro`. O segundo parâmetro contém uma array dos itens que serão comprados. Cada item é uma string contendo o código do item e a quantidade do mesmo separados por uma vírgula.
-EXEMPLO:
-```js
-['cafe,1','chantily,1']
-```
-
-### OUPUTS
-O retorno do método `calcularValorDaCompra` deve ser sempre uma string e conteúdo dela pode ser ou o valor total da compra ou uma mensagem de erro conforme as regras descritas anteriormente. O valor da compra deve ser formatado com `R$` e decimais separados por vírgula.
-
-Para padronizar a quantidade de decimais, utilize o método `toFixed` do JavaScript. Esse método serve o propósito deste desafio, porém na vida real a regra de arredondamento deve ser conferida! Para saber mais consulte a [Documentação do Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed).
-EXEMPLO:
-```js
-// exemplo de saída do valor da compra
-"R$ 6,00"
-
-// exemplo de saída de erro
-"Forma de pagamento inválida!"
-```
-
-### EXEMPLOS
-
-EXEMPLO 1: Compra de chantily sem café.
-```js
-new CaixaDaLanchonete()
-  .calcularValorDaCompra('debito', ['chantily,1']);
-```
-O resultado esperado deve ser:
-```
-"Item extra não pode ser pedido sem o principal"
-```
-
-<br/>
-
-EXEMPLO 2: Compra de café com chantily.
-```js
-new CaixaDaLanchonete()
-  .calcularValorDaCompra('debito', ['cafe,1','chantily,1']);
-```
-O resultado esperado deve ser:
-```
-"R$ 4,50"
-```
-
-<br/>
-
-EXEMPLO 3: Compra de combo e dois cafés
-```js
-new CaixaDaLanchonete()
-  .calcularValorDaCompra('credito', ['combo1,1','cafe,2']);
-```
-O resultado esperado deve ser:
-```
-"R$ 15,96"
-```
+            
