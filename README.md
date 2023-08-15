@@ -93,9 +93,7 @@ Utilizando o método replace para substituir um caractere em uma string por outr
 const formattedTotal = `R$ ${total.toFixed(2).replace('.', ',')}`;
 
 
-
-
 # TESTES AUTOMATIZADOS INSERIDOS
-![Print com os testes adicionados]([URL_DA_IMAGEM](https://github.com/carolinajacoby/desafio-anacarolina-jacoby/blob/main/.vscode/testesdb.jpg?raw=true)https://github.com/carolinajacoby/desafio-anacarolina-jacoby/blob/main/.vscode/testesdb.jpg?raw=true)
+([URL_DA_IMAGEM](https://github.com/carolinajacoby/desafio-anacarolina-jacoby/blob/main/.vscode/testesdb.jpg?raw=true)https://github.com/carolinajacoby/desafio-anacarolina-jacoby/blob/main/.vscode/testesdb.jpg?raw=true)
 
             
