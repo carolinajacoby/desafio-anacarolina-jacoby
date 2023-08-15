@@ -16,7 +16,7 @@ if (itens.length === 0):Verifica se a lista(itens) é vazia, em caso positivo, r
 Criação do array contendo as formas de pagamentos aceitas pelo programa.
 formasDePagamentoValidas = ['dinheiro', 'debito', 'credito'];
 
-# 3°) Parte: 
+# 3° Parte: 
 Validação da forma de pagamento
 if (!formasDePagamentoValidas.includes(metodoDePagamento))
 Atenção ao operador != ele inverte o resultado da verificação, ou seja, está verficando se o método de pagamento não está na lista de formas de pagamento.
@@ -90,6 +90,6 @@ if (metodoDePagamento === 'dinheiro') {
 # 11º Parte
 Utilizando o método replace para substituir um caractere em uma string por outro caractere. No caso "." por "," conforme solicitadoo.
 
-const formattedTotal = `R$ ${total.toFixed(2).replace('.', ',')}`;
+
 
 
